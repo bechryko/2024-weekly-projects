@@ -1,0 +1,49 @@
+<h1 *ngIf="gymModeOff$ | async">Gym Ladybug</h1>
+<ng-container *ngIf="user$ | async as user">
+  @if(user) {
+    <nav class="w-100" *ngIf="gymModeOff$ | async">
+      <button mat-flat-button [color]="getButtonColor('workouts')" (click)="selectPage('workouts')">Edzések</button>
+      <button mat-flat-button [color]="getButtonColor('exercises')" (click)="selectPage('exercises')">Gyakorlatok</button>
+      <button mat-flat-button [color]="getButtonColor('completed')" (click)="selectPage('completed')">Teljesített edzések</button>
+    </nav>
+    <div [class.app-margin]="gymModeOff$ | async">
+      <router-outlet></router-outlet>
+    </div>
+  }
+  @else {
+    <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+      <fieldset>
+        <legend>Bejelentkezés</legend>
+      </fieldset>
+      <mat-form-field>
+        <mat-label>E-mail cím</mat-label>
+        <input matInput formControlName="email">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Jelszó</mat-label>
+        <input mat-input type="password" formControlName="password">
+      </mat-form-field>
+    </form>
+    <form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()">
+      <fieldset>
+        <legend>Regisztráció</legend>
+      </fieldset>
+      <mat-form-field>
+        <mat-label>E-mail cím</mat-label>
+        <input mat-input formControlName="email">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Jelszó</mat-label>
+        <input mat-input type="password" formControlName="password">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Jelszó megerősítése</mat-label>
+        <input mat-input type="password" formControlName="confirm-password">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Regisztrációs kód</mat-label>
+        <input mat-input formControlName="code">
+      </mat-form-field>
+    </form>
+  }
+</ng-container>

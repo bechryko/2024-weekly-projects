@@ -1,0 +1,138 @@
+<form class="gym-wrapper">
+   @if(workout) {
+      <h1 class="tc">{{ workout.name }}</h1>
+      <h2 class="category-heading">Bemelegítés</h2>
+      @for(exercise of warmups; track exercise.index) {
+         <div class="exercise"
+            [class.completed]="exerciseDone[ExerciseCategory.WARMUP][$index]">
+            <h3>{{ exercise.name }}</h3>
+            @for(url of exercise.urls; track $index) {
+               @if(youtubeUrl(url)) {
+                  <iframe width="560" height="315" [src]="youtubeUrl(url)" class="url"></iframe>
+                  <br>
+               } @else {
+                  <a [href]="otherUrl(url)" class="url f3">{{ url }}</a>
+               }
+            }
+            <ul>
+               @for(tip of exercise.tips; track $index) {
+                  <li>{{ tip }}</li>
+               }
+            </ul>
+            <p class="comment">{{ exercise.comment }}</p>
+            @if(exercise.weight) {
+               <p>Súly: {{ exercise.weight }}</p>
+            }
+            @if(exercise.repeatTimes) {
+               <p>Ismétlések száma: {{ exercise.repeatTimes }}</p>
+            }
+            @if(exercise.amount) {
+               <p>Egy sorozat hossza: {{ exercise.amount }}</p>
+            }
+            @if(exercise.setCompletionTimestamps.length) {
+               <p>Kész: {{ getDoneTimes(exercise) }}</p>
+            }
+            <div class="buttons">
+               <button type="button" mat-flat-button color="accent" (click)="completeSet(exercise)">Sorozat kész!</button>
+               <button type="button" mat-flat-button color="accent" (click)="completeExercise(exercise)">Gyakorlat kész!</button>
+            </div>
+         </div>
+         @if(!$last) {
+            <mat-divider></mat-divider>
+         }
+      }
+      <h2 class="category-heading">Fő gyakorlatok</h2>
+      @for(exercise of mains; track exercise.index) {
+         <div class="exercise"
+            [class.completed]="exerciseDone[ExerciseCategory.MAIN][$index]">
+            <h3>{{ exercise.name }}</h3>
+            @for(url of exercise.urls; track $index) {
+               @if(youtubeUrl(url)) {
+                  <iframe width="560" height="315" [src]="youtubeUrl(url)" class="url"></iframe>
+                  <br>
+               } @else {
+                  <a [href]="otherUrl(url)" class="url f3">{{ url }}</a>
+               }
+            }
+            <ul>
+               @for(tip of exercise.tips; track $index) {
+                  <li>{{ tip }}</li>
+               }
+            </ul>
+            <p class="comment">{{ exercise.comment }}</p>
+            @if(exercise.weight) {
+               <p>Súly: {{ exercise.weight }}</p>
+            }
+            @if(exercise.repeatTimes) {
+               <p>Ismétlések száma: {{ exercise.repeatTimes }}</p>
+            }
+            @if(exercise.amount) {
+               <p>Egy sorozat hossza: {{ exercise.amount }}</p>
+            }
+            @if(exercise.setCompletionTimestamps.length) {
+               <p>Kész: {{ getDoneTimes(exercise) }}</p>
+            }
+            <div class="buttons">
+               <button type="button" mat-flat-button color="accent" (click)="completeSet(exercise)">Sorozat kész!</button>
+               <button type="button" mat-flat-button color="accent" (click)="completeExercise(exercise)">Gyakorlat kész!</button>
+            </div>
+         </div>
+         @if(!$last) {
+            <mat-divider></mat-divider>
+         }
+      }
+      <h2 class="category-heading">Nyújtás</h2>
+      @for(exercise of stretches; track exercise.index) {
+         <div class="exercise"
+            [class.completed]="exerciseDone[ExerciseCategory.STRETCH][$index]">
+            <h3>{{ exercise.name }}</h3>
+            @for(url of exercise.urls; track $index) {
+               @if(youtubeUrl(url)) {
+                  <iframe width="560" height="315" [src]="youtubeUrl(url)" class="url"></iframe>
+                  <br>
+               } @else {
+                  <a [href]="otherUrl(url)" class="url f3">{{ url }}</a>
+               }
+            }
+            <ul>
+               @for(tip of exercise.tips; track $index) {
+                  <li>{{ tip }}</li>
+               }
+            </ul>
+            <p class="comment">{{ exercise.comment }}</p>
+            @if(exercise.weight) {
+               <p>Súly: {{ exercise.weight }}</p>
+            }
+            @if(exercise.repeatTimes) {
+               <p>Ismétlések száma: {{ exercise.repeatTimes }}</p>
+            }
+            @if(exercise.amount) {
+               <p>Egy sorozat hossza: {{ exercise.amount }}</p>
+            }
+            @if(exercise.setCompletionTimestamps.length) {
+               <p>Kész: {{ getDoneTimes(exercise) }}</p>
+            }
+            <div class="buttons">
+               <button type="button" mat-flat-button color="accent" (click)="completeSet(exercise)">Sorozat kész!</button>
+               <button type="button" mat-flat-button color="accent" (click)="completeExercise(exercise)">Gyakorlat kész!</button>
+            </div>
+         </div>
+         <div class="submit-buttons">
+            <button type="button" mat-flat-button class="complete" (click)="completeWorkout()">Edzés befejezése</button>
+            <button type="button" mat-flat-button class="cancel" (click)="cancelWorkout()">Edzés megszakítása</button>
+         </div>
+         @if(!$last) {
+            <mat-divider></mat-divider>
+         }
+      }
+      <div class="submit-buttons">
+         <button type="button" mat-flat-button class="complete" (click)="completeWorkout()">Edzés befejezése</button>
+         <button type="button" mat-flat-button class="cancel" (click)="cancelWorkout()">Edzés megszakítása</button>
+      </div>
+   } @else {
+      <h1 class="red">Hiba lépett fel az edzés indítása közben!</h1>
+      <div class="submit-buttons">
+         <button type="button" mat-flat-button class="cancel" (click)="cancelWorkout()">Kilépés</button>
+      </div>
+   }
+</form>

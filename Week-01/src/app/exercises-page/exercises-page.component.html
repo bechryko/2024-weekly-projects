@@ -1,0 +1,58 @@
+@if(selectedExerciseId()) {
+   <form *ngIf="exerciseForm.value as exercise" [formGroup]="exerciseForm">
+      <mat-form-field class="w-100">
+         <mat-label>A gyakorlat neve</mat-label>
+         <input matInput 
+            type="text"
+            formControlName="name">
+      </mat-form-field>
+      <fieldset formArrayName="urls">
+         <legend>Kapcsolódó linkek</legend>
+         @for(url of exercise.urls; track $index) {
+            <mat-form-field class="w-100">
+               <input matInput 
+                  type="text"
+                  [formControlName]="$index"
+                  (blur)="checkFormArrayElement('urls', $index)">
+            </mat-form-field>
+            <br>
+         }
+         <button mat-stroked-button color="primary" (click)="addFormArrayElement('urls')">Link hozzáadása</button>
+      </fieldset>
+      <ul formArrayName="tips">
+         <h3>Tippek</h3>
+         @for(tip of exercise.tips; track $index) {
+            <li>
+               <mat-form-field class="w-100">
+                  <input matInput
+                     type="text"
+                     [formControlName]="$index"
+                     (blur)="checkFormArrayElement('tips', $index)">
+               </mat-form-field>
+            </li>
+         }
+         <button mat-stroked-button color="primary" (click)="addFormArrayElement('tips')">Tipp hozzáadása</button>
+      </ul>
+      <mat-form-field class="w-100">
+         <mat-label>Megjegyzések</mat-label>
+         <textarea matInput
+            formControlName="comment"
+            cdkTextareaAutosize></textarea>
+      </mat-form-field>
+      <mat-radio-group formControlName="category" color="accent">
+         @for(category of ExerciseCategories; track $index) {
+            <mat-radio-button [value]="category">{{ categoryLabels[category] }}</mat-radio-button>
+         }
+      </mat-radio-group>
+      <div class="buttons">
+         <button mat-stroked-button color="primary" (click)="saveExercise()">Mentés</button>
+         <button mat-stroked-button color="primary" (click)="selectExercise()">Vissza</button>
+      </div>
+   </form>
+} @else {
+   <h2>Válaszd ki a szerkeszteni kívánt gyakorlatot!</h2>
+   @for(exercise of exercises(); track $index) {
+      <button mat-raised-button (click)="selectExercise(exercise.id)">{{ exercise.name }}</button>
+      <br>
+   }
+}

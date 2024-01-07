@@ -1,0 +1,18 @@
+h1 {
+   text-align: center;
+   font-size: 5rem;
+   line-height: 7rem;
+}
+
+nav {
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+
+   button {
+      border-radius: 0;
+   }
+}
+
+.app-margin {
+   margin: 2rem;
+}
