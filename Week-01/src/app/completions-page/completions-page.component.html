@@ -1,0 +1,36 @@
+@if(selectedWorkout()) {
+   <h2>{{ selectedWorkout()!.name }}</h2>
+   <p>Teljesítő: {{ selectedWorkout()!.user }}</p>
+   <p>Teljesítette ekkor: {{ getCompletionDate(selectedWorkout()!) }}</p>
+   @for(exercise of selectedWorkout()!.exercises; track $index) {
+      <mat-card>
+         <mat-card-header>
+            <h3>{{ exercise.name }}</h3>
+         </mat-card-header>
+         <mat-card-content>
+            @if(exercise.weight) {
+               <p>Súly: {{ exercise.weight }}</p>
+            }
+            @if(exercise.setCompletionTimestamps.length) {
+               <p>Sorozatok teljesítésének időpontjai: {{ getCompletionTimestamps(exercise) }}</p>
+            }
+         </mat-card-content>
+      </mat-card>
+   }
+   <div class="buttons">
+      <button mat-stroked-button color="primary" (click)="selectWorkout()">Vissza</button>
+   </div>
+} @else {
+   <h2>Teljesített edzések</h2>
+   @for(workout of completedWorkouts(); track $index) {
+      <mat-card>
+         <mat-card-header>
+            <h3>{{ workout.name }}</h3>
+         </mat-card-header>
+         <mat-card-content>Teljesítette: {{ workout.user }} {{ getCompletionDate(workout) }}-kor</mat-card-content>
+         <mat-card-actions>
+            <button mat-flat-button color="primary" (click)="selectWorkout(workout)">Részletes információk</button>
+         </mat-card-actions>
+      </mat-card>
+   }
+}

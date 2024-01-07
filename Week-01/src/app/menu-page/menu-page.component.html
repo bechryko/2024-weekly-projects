@@ -1,0 +1,17 @@
+<form [formGroup]="workoutSelectionForm">
+   <h2>Kezdj el edzeni most!</h2>
+   <mat-form-field>
+      <mat-label>Válassz edzést!</mat-label>
+      <mat-select color="primary" formControlName="workout">
+         @for(workout of workouts$ | async; track $index) {
+            <mat-option [value]="workout.id" (onSelectionChange)="isWorkoutSelected = true;">{{ workout.name }}</mat-option>
+         }
+      </mat-select>
+   </mat-form-field>
+   <br>
+   <button mat-raised-button 
+      color="accent" 
+      class="start-workout"
+      [disabled]="!isWorkoutSelected"
+      (click)="startWorkout()">Kezdés!</button>
+</form>

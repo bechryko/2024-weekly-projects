@@ -1,0 +1,102 @@
+@if(selectedWorkout()) {
+   <form *ngIf="workoutForm.value as workout" [formGroup]="workoutForm">
+      <h2>{{ selectedWorkout()!.name }}</h2>
+      <div formArrayName="warmup" cdkDropList (cdkDropListDropped)="drag($event, ExerciseCategory.WARMUP)">
+         <h3>Bemelegítés</h3>
+         @for(warmup of workout.warmup; track $index) {
+            <fieldset [formGroupName]="$index" cdkDrag cdkDragLockAxis="y">
+               <div class="exercise-name" cdkDragHandle>
+                  <h4>{{ selectedWarmups()![$index].name }}</h4>
+               </div>
+               <mat-form-field class="w-100">
+                  <mat-label>Ismétlések száma</mat-label>
+                  <input matInput 
+                     type="text"
+                     formControlName="repeatTimes">
+               </mat-form-field>
+               <mat-form-field class="w-100">
+                  <mat-label>Egy sorozat hossza</mat-label>
+                  <input matInput 
+                     type="text"
+                     formControlName="amount">
+               </mat-form-field>
+               <mat-form-field class="w-100">
+                  <mat-label>Súly</mat-label>
+                  <input matInput 
+                     type="text"
+                     formControlName="weight">
+               </mat-form-field>
+            </fieldset>
+            <br>
+         }
+      </div>
+      <div formArrayName="main" cdkDropList (cdkDropListDropped)="drag($event, ExerciseCategory.MAIN)">
+         <h3>Fő gyakorlatok</h3>
+         @for(main of workout.main; track $index) {
+            <fieldset [formGroupName]="$index" cdkDrag cdkDragLockAxis="y">
+               <div class="exercise-name">
+                  <h4>{{ selectedMains()![$index].name }}</h4>
+               </div>
+               <mat-form-field class="w-100">
+                  <mat-label>Ismétlések száma</mat-label>
+                  <input matInput 
+                     type="text"
+                     formControlName="repeatTimes">
+               </mat-form-field>
+               <mat-form-field class="w-100">
+                  <mat-label>Egy sorozat hossza</mat-label>
+                  <input matInput 
+                     type="text"
+                     formControlName="amount">
+               </mat-form-field>
+               <mat-form-field class="w-100">
+                  <mat-label>Súly</mat-label>
+                  <input matInput 
+                     type="text"
+                     formControlName="weight">
+               </mat-form-field>
+            </fieldset>
+            <br>
+         }
+      </div>
+      <div formArrayName="stretch" cdkDropList (cdkDropListDropped)="drag($event, ExerciseCategory.STRETCH)">
+         <h3>Nyújtás</h3>
+         @for(stretch of workout.stretch; track $index) {
+            <fieldset [formGroupName]="$index" cdkDrag cdkDragLockAxis="y">
+               <div class="exercise-name">
+                  <h4>{{ selectedStretches()![$index].name }}</h4>
+               </div>
+               <mat-form-field class="w-100">
+                  <mat-label>Ismétlések száma</mat-label>
+                  <input matInput 
+                     type="text"
+                     formControlName="repeatTimes">
+               </mat-form-field>
+               <mat-form-field class="w-100">
+                  <mat-label>Egy sorozat hossza</mat-label>
+                  <input matInput 
+                     type="text"
+                     formControlName="amount">
+               </mat-form-field>
+               <mat-form-field class="w-100">
+                  <mat-label>Súly</mat-label>
+                  <input matInput 
+                     type="text"
+                     formControlName="weight">
+               </mat-form-field>
+            </fieldset>
+            <br>
+         }
+      </div>
+      <div class="buttons">
+         <button mat-stroked-button color="primary" (click)="saveWorkout()">Mentés</button>
+         <button mat-stroked-button color="primary" (click)="selectWorkout()">Vissza</button>
+      </div>
+   </form>
+} @else {
+   <h2>Válaszd ki a szerkeszteni kívánt edzést!</h2>
+   @for(workout of workouts(); track $index) {
+      <button mat-raised-button (click)="selectWorkout(workout.id)">{{ workout.name }}</button>
+      <br>
+   }
+}
