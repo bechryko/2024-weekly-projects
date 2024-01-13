@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { GameComponent } from './game/game.component';
 import { MiliComponent } from './mili/mili.component';
 
 @Component({
@@ -9,6 +10,7 @@ import { MiliComponent } from './mili/mili.component';
    imports: [
       CommonModule,
       RouterOutlet,
+      GameComponent,
       MiliComponent
    ],
    templateUrl: './app.component.html',

@@ -1,0 +1,10 @@
+<div class="table">
+   @for(row of tiles; track $index) {
+      @for(tile of row; track $index) {
+         <div class="tile"
+            [ngClass]="getCSSClass(tile)">
+            {{ tile ? tile : '' }}
+         </div>
+      }
+   }
+</div>
