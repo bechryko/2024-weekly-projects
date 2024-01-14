@@ -1,0 +1,31 @@
+@use './tile-colors' as *;
+
+$tile-spacing: 7.5px;
+
+.table {
+   width: fit-content;
+   padding: $tile-spacing;
+   background-color: #bbada0;
+   display: grid;
+   grid-template-columns: repeat(4, 1fr);
+   user-select: none;
+}
+
+.tile {
+   $size: 10rem;
+   
+   width: $size;
+   height: $size;
+   text-align: center;
+   font-size: calc($size / 2);
+   font-family: sans-serif;
+   color: black;
+   border-radius: $tile-spacing * 2;
+   margin: $tile-spacing;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+
+   @include colorTile;
+}

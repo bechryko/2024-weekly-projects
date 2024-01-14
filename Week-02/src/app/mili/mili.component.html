@@ -1,0 +1,18 @@
+<div class="mili-wrapper">
+   <canvas #canvas width="200" height="200"></canvas>
+   @if(dialog) {
+      <div class="dialog"
+         [class.clickable]="(dialog.choices?.length === 1 && !dialog.choices?.[0]?.text) || !dialog.choices"
+         (click)="skipDialog()">
+         <p>{{ dialog.text }}</p>
+      </div>
+      @if(!(dialog.choices?.length === 1 && !dialog.choices?.[0]?.text)) {
+         <div class="choices">
+            @for(choice of dialog.choices; track $index) {
+               <button class="clickable"
+                  (click)="onChoiceMade(choice)">{{ choice.text }}</button>
+            }
+         </div>
+      }
+   }
+</div>
