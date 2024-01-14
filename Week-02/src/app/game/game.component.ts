@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter, fromEvent, map } from 'rxjs';
-import { Direction } from './direction';
+import { Direction, randomDirection } from './direction';
+import { GameData } from './game-data';
+import { GameStage } from './game-stage';
 
 type SpawnType = 'normal' | 'ruin' | 'negative';
 
@@ -22,11 +24,19 @@ interface Tile {
 })
 export class GameComponent {
    @Input() public allowedToMove: boolean = false;
+   @Input() public set stage(value: GameStage) { 
+      this.gameStage = value;
+      if (value.key === 'MILIS_PLAY' && value.turn > 0) {
+         this.move(randomDirection(), true);
+      }
+   }
+   @Output() public gameData = new EventEmitter<GameData>();
    public readonly GAME_SIZE = 4;
    public readonly tiles: number[][];
    private movesMade = 0;
    private negatives = 0;
    private isGameOver = false;
+   private gameStage!: GameStage;
 
    constructor() {
       this.tiles = [];
@@ -74,10 +84,10 @@ export class GameComponent {
          newNumber = 2;
       }
       if (spawnType === 'ruin') {
-         newNumber = Math.random() * 100;
+         newNumber = Math.floor(Math.random() * 7) + 3;
       }
       if (spawnType == 'negative') {
-         newNumber = -(2 ** (Math.floor(Math.random() * 2) + newNumber));
+         newNumber = -(2 ** (Math.floor(Math.random() * 2) + newNumber - 1));
          this.negatives++;
       }
 
@@ -90,6 +100,7 @@ export class GameComponent {
       }
       if (!possibilities) {
          this.gameOver();
+         return;
       }
 
       const chosenTile = Math.floor(Math.random() * possibilities);
@@ -105,11 +116,10 @@ export class GameComponent {
             }
          }
       }
-      console.warn('No tile was chosen!');
+      console.warn('Error: No tile was chosen!');
    }
 
-   private move(direction: Direction): void {
-      this.movesMade++;
+   private move(direction: Direction, doesMiliMove = false): void {
       if (direction == Direction.Down) {
          for (let i = this.GAME_SIZE - 1; i >= 0; i--) {
             for (let j = 0; j < this.GAME_SIZE; j++) {
@@ -136,7 +146,12 @@ export class GameComponent {
          }
       }
 
-      this.spawnNumber(.5, 'normal');
+      let spawnType: SpawnType = doesMiliMove ? 'ruin' : this.gameStage.key === 'MILIS_RAGE' ? 'negative' : 'normal';
+      if(spawnType === 'negative' && (Math.random() >= .15 || this.negatives >= 4)) {
+         spawnType = 'normal';
+      }
+      this.spawnNumber(.5, spawnType);
+      this.nextTurn();
    }
 
    private moveTileTo(from: Tile, to: Tile): boolean {
@@ -171,7 +186,7 @@ export class GameComponent {
 
    private gameOver(): void {
       this.isGameOver = true;
-      window.alert("Játék vége! Nem tudsz tovább lépni.");
+      console.warn("Játék vége! Nem tudsz tovább lépni.");
    }
 
    private getTileValue(tile: Tile): number {
@@ -193,5 +208,14 @@ export class GameComponent {
       return {
          ['tile-' + value]: true
       };
+   }
+
+   private nextTurn(): void {
+      this.movesMade++;
+
+      this.gameData.emit({
+         movesMade: this.movesMade,
+         isEnded: this.isGameOver
+      });
    }
 }

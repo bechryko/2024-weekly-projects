@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Dialog, DialogChoice } from './dialogs/dialog-list';
 
 @Component({
    selector: 'mili2048-mili',
@@ -8,6 +9,8 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
    styleUrl: './mili.component.scss'
 })
 export class MiliComponent implements AfterViewInit {
+   @Input() public dialog?: Dialog;
+   @Output() public choiceMade = new EventEmitter<DialogChoice | undefined>();
    @ViewChild('canvas') canvasRef?: ElementRef<HTMLCanvasElement>;
    public ctx?: CanvasRenderingContext2D;
 
@@ -49,5 +52,17 @@ export class MiliComponent implements AfterViewInit {
 
    get canvas(): HTMLCanvasElement {
       return this.canvasRef!.nativeElement;
+   }
+
+   public onChoiceMade(choice: DialogChoice): void {
+      this.choiceMade.emit(choice);
+   }
+
+   public skipDialog(): void {
+      if(this.dialog?.choices?.length === 1 && !this.dialog.choices[0].text) {
+         this.choiceMade.emit(this.dialog.choices[0]);
+      } else if(!this.dialog?.choices) {
+         this.choiceMade.emit();
+      }
    }
 }

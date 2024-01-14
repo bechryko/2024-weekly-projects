@@ -4,3 +4,7 @@ export enum Direction {
    Left = "left",
    Right = "right"
 }
+
+export function randomDirection(): Direction {
+   return Object.values(Direction)[Math.floor(Math.random() * 4)] as Direction;
+}

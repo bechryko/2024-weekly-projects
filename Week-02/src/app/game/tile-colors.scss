@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 @mixin colorTile {
    &.tile-0 {
       background-color: #cdc1b4;
@@ -7,43 +9,150 @@
       background-color: #eee4da;
    }
 
+   &.tile--2 {
+      background-color: color.invert($color: #eee4da);
+      color: white;
+   }
+
    &.tile-4 {
       background-color: #ede0c8;
+   }
+
+   &.tile--4 {
+      background-color: color.invert($color: #ede0c8);
+      color: white;
    }
 
    &.tile-8 {
       background-color: #f2b179;
    }
 
+   &.tile--8 {
+      background-color: color.invert($color: #f2b179);
+      color: white;
+   }
+
    &.tile-16 {
       background-color: #f59563;
+   }
+
+   &.tile--16 {
+      background-color: color.invert($color: #f59563);
+      color: white;
    }
 
    &.tile-32 {
       background-color: #f67c5f;
    }
 
+   &.tile--32 {
+      background-color: color.invert($color: #f67c5f);
+      color: white;
+   }
+
    &.tile-64 {
       background-color: #f65e3b;
+   }
+
+   &.tile--64 {
+      background-color: color.invert($color: #f65e3b);
+      color: white;
    }
 
    &.tile-128 {
       background-color: #edcf72;
    }
 
+   &.tile--128 {
+      background-color: color.invert($color: #edcf72);
+      color: white;
+   }
+
    &.tile-256 {
       background-color: #edcc61;
+   }
+
+   &.tile--256 {
+      background-color: color.invert($color: #edcc61);
+      color: white;
    }
 
    &.tile-512 {
       background-color: #edc850;
    }
 
+   &.tile--512 {
+      background-color: color.invert($color: #edc850);
+      color: white;
+   }
+
    &.tile-1024 {
       background-color: #edc53f;
    }
 
+   &.tile--1024 {
+      background-color: color.invert($color: #edc53f);
+      color: white;
+   }
+
    &.tile-2048 {
       background-color: #edc22e;
+   }
+
+   &.tile--2048 {
+      background-color: color.invert($color: #edc22e);
+      color: white;
+   }
+
+   &.tile-3 {
+      background-color: #6495ed;
+   }
+
+   &.tile-5 {
+      background-color: #b65e84;
+   }
+
+   &.tile-6 {
+      background-color: #c6e2ff;
+   }
+
+   &.tile-7 {
+      background-color: #79de90;
+   }
+
+   &.tile-9 {
+      background-color: #bcbcbc;
+   }
+
+   &.tile-10 {
+      background-color: #d94fff;
+   }
+
+   &.tile-12 {
+      background-color: #00c3ff;
+   }
+
+   &.tile-14 {
+      background-color: #1a9a00;
+   }
+
+   &.tile-18 {
+      background-color: #828282;
+   }
+
+   &.tile-20 {
+      background-color: #6d00d3;
+   }
+
+   &.tile-24 {
+      background-color: #0090dd;
+   }
+
+   &.tile-28 {
+      background-color: #186818;
+   }
+
+   &.tile-36 {
+      background-color: #676767;
    }
 }

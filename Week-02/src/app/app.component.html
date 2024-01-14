@@ -1,1 +1,9 @@
-<mili2048-mili></mili2048-mili>
+<div class="app-wrapper">
+   <mili2048-game [allowedToMove]="currentMiliDialog() === undefined"
+      [stage]="gameStage"
+      (gameData)="onMoveMade($event)"></mili2048-game>
+   @if(isMiliVisible()) {
+      <mili2048-mili [dialog]="currentMiliDialog()"
+         (choiceMade)="onChoiceMade($event)"></mili2048-mili>
+   }
+</div>
