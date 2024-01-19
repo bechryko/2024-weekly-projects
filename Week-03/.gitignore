@@ -1,0 +1,8 @@
+/node_modules
+
+# Test-related files
+/coverage.data
+/coverage/
+
+# Build files
+/dist
