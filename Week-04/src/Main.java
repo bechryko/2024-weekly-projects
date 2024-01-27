@@ -1,14 +1,15 @@
 import java.io.FileNotFoundException;
 
-import sort.BubbleSort;
-import sort.GnomeSort;
+import sort.MergeSort;
+import sort.QuickSortHoare;
+import sort.QuickSortLumoto;
 import test.Tester;
 
 public class Main {
     public static void main(String[] args) {
         try {
-            Tester.runFullTest(new BubbleSort(), false);
-            Tester.runFullTest(new GnomeSort(), false);
+            Tester.runFullTest(new QuickSortHoare(), false);
+            Tester.runFullTest(new MergeSort(), false);
             Tester.printAllTestResults();
         } catch (FileNotFoundException fnfe) {
             fnfe.printStackTrace();
