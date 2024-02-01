@@ -1,0 +1,64 @@
+.app-wrapper {
+   display: flex;
+   width: 100%;
+   height: 100%;
+}
+
+.game {
+   width: 80%;
+   height: 100%;
+   background-color: #7CB342;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+
+   table {
+      width: 80%;
+      max-height: 95%;
+      aspect-ratio: 1;
+
+      .field {
+         background-color: #c68642;
+         position: relative;
+
+         &.selected {
+            opacity: 0.6;
+         }
+
+         &.sparrow-root {
+            background-color: #30f779;
+         }
+
+         &.poseidon-flower {
+            background-color: aqua;
+         }
+
+         &.dawner {
+            background-color: #4b7753;
+         }
+      }
+   }
+}
+
+.side {
+   min-width: 400px;
+   width: 20%;
+   background-color: #583100;
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   padding: 1rem;
+   box-sizing: border-box;
+
+   weed-field-info {
+      width: 90%;
+      aspect-ratio: 1;
+      margin-bottom: 3rem;
+   }
+
+   button {
+      width: 80%;
+      margin-bottom: 2rem;
+   }
+}

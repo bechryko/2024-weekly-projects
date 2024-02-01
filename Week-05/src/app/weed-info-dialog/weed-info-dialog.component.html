@@ -1,0 +1,36 @@
+<div class="dialog-wrapper">
+   <div class="content-wrapper">
+      <div class="weed-list">
+         <div class="evidences">
+            <h2>Evidences</h2>
+            @for(evidence of evidenceList; track $index) {
+               <div class="evidence"
+                  [class.circled]="evidenceSelection[evidence] === 'selected'"
+                  [class.crossed]="evidenceSelection[evidence] === 'crossed'"
+                  (click)="clickOnEvidence(evidence)">{{ evidence }}</div>
+            }
+         </div>
+         <div class="weeds">
+            <h2>Weeds</h2>
+            @for(weed of weedList; track $index) {
+               <div class="weed"
+                  [class.circled]="getWeedSelectionStatus(weed) === 'selected'"
+                  [class.crossed]="getWeedSelectionStatus(weed) === 'crossed'"
+                  [class.disabled]="getWeedSelectionStatus(weed) === 'excluded'"
+                  (mouseenter)="selectWeed(weed)"
+                  (click)="clickOnWeed(weed)">{{ weed }}</div>
+            }
+         </div>
+      </div>
+      <div class="weed-description">
+         @if(selectedWeed()) {
+            <h2>{{ selectedWeed() }}</h2>
+            <div>
+               <p><b>Evidences:</b> {{ selectedWeedEvidenceText() }}</p>
+               <p>{{ selectedWeedDescription()!.description }}</p>
+               <p><b>Special:</b> {{ selectedWeedDescription()!.special }}</p>
+            </div>
+         }
+      </div>
+   </div>
+</div>

@@ -1,0 +1,45 @@
+.content-wrapper {
+   display: flex;
+   width: 100%;
+   height: 100%;
+   
+   .weed-list {
+      width: 40%;
+
+      .weeds, .evidences {
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-content: space-around;
+      }
+
+      .weeds {
+         border-top: 1px solid black;
+      }
+         
+      .weed, .evidence {
+         cursor: pointer;
+         user-select: none;
+         padding: 0.75rem 1rem;
+         box-sizing: border-box;
+         border: 1px solid transparent;
+      }
+   }
+
+   .weed-description {
+      width: 60%;
+      border-left: black solid 1px;
+
+      div {
+         width: 70%;
+      }
+   }
+
+   .weed-list, .weed-description {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+   }
+}

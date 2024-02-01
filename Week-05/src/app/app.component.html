@@ -1,0 +1,28 @@
+<div class="app-wrapper">
+  <div class="game">
+    <table>
+      @for(fieldRow of fields; track $index) {
+        <tr>
+          @for(field of fieldRow; track $index) {
+            <td class="field" 
+              (click)="onFieldSelected(field)"
+              [class.weed]="field.isWeedPresent"
+              [class.selected]="field === selectedField"
+              [ngClass]="getPlantNgClass(field.plant)">
+            </td>
+          }
+        </tr>
+      }
+    </table>
+  </div>
+  <div class="side">
+    <weed-field-info
+      [field]="selectedField"
+      [endOfGame]="(endOfGame$ | async)!"></weed-field-info>
+    <button mat-flat-button color="accent"
+      (click)="openWeedDialog()">See weeds</button>
+    <button mat-flat-button color="accent"
+      (click)="extermination()"
+      [disabled]="!isWeedSelected()">Start extermination</button>
+  </div>
+</div>

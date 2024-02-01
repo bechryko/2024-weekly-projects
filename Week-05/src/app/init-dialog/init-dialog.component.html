@@ -1,0 +1,13 @@
+<div class="dialog-wrapper">
+   <h1>Configure the game!</h1>
+   <mat-form-field color="accent">
+      <mat-label>Selected weed type</mat-label>
+      <mat-select [(value)]="selectedWeed">
+         <mat-option value="random">Random</mat-option>
+         @for (weed of weedTypes; track $index) {
+            <mat-option [value]="weed">{{ weed }}</mat-option>
+         }
+      </mat-select>
+   </mat-form-field>
+   <button mat-flat-button (click)="closeDialog()" color="accent">Accept</button>
+</div>
