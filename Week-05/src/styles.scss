@@ -1,0 +1,110 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+$living-brown-palette: (
+  50: #ffa415,
+  100: #dc8700,
+  200: #b36a00,
+  300: #8a4d00,
+  400: #713f00,
+  500: #583100,
+  600: #3f2300,
+  700: #261500,
+  800: #0d0700,
+  900: #000000,
+  A100: #ffa415,
+  A200: #dc8700,
+  A400: #713f00,
+  A700: #261500,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
+  )
+);
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$weed-guesser-primary: mat.define-palette(mat.$light-green-palette);
+$weed-guesser-accent: mat.define-palette($living-brown-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$weed-guesser-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$weed-guesser-theme: mat.define-light-theme((
+  color: (
+    primary: $weed-guesser-primary,
+    accent: $weed-guesser-accent,
+    warn: $weed-guesser-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($weed-guesser-theme);
+
+/* You can add global styles to this file, and also import other style files */
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.cdk-global-scrollblock {
+  overflow: hidden;
+}
+
+.crossed {
+  text-decoration: line-through;
+}
+
+.circled {
+  border-radius: 50%;
+  border-color: black !important;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.dialog-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 60vh;
+  width: 60vw;
+  background-color: #DCEDC8;
+  
+  h1 {
+    color: #583100;
+  }
+}

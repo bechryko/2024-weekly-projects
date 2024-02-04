@@ -1,0 +1,29 @@
+<div class="field-info-wrapper">
+   @if(field) {
+      @if(field.plant) {
+         <h2>{{ field.plant.name }}</h2>
+         @if(field.plant.isAlive()) {
+            <p>Water level: {{ field.plant.getWaterStatus() }}</p>
+            <p>Miosn level: {{ field.plant.getMiosnStatus() }}</p>
+         } @else {
+            <p>The plant is dead!</p>
+         }
+         @if(!endOfGame) {
+            <button mat-flat-button color="accent"
+               (click)="removePlant()">Remove plant</button>
+         }
+      } @else if(!endOfGame) {
+         <h2>Select a plant!</h2>
+         <mat-form-field color="accent">
+            <mat-label>Plant type</mat-label>
+            <mat-select [(value)]="selectedPlant">
+               @for(plant of plantList; track $index) {
+                  <mat-option [value]="plant">{{ plant }}</mat-option>
+               }
+            </mat-select>
+         </mat-form-field>
+         <button mat-flat-button color="accent"
+            (click)="plant()">Plant it!</button>
+      }
+   }
+</div>
