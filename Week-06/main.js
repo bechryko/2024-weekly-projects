@@ -1,7 +1,7 @@
 const cursor = { x: 0, y: 0, movement: 0 };
 
 document.addEventListener('mousemove', event => {
-   cursor.movement = (event.clientX - cursor.x) ** 2 + (event.clientY - cursor.y) ** 2;
+   cursor.movement = Math.sqrt((event.clientX - cursor.x) ** 2 + (event.clientY - cursor.y) ** 2);
    cursor.x = event.clientX;
    cursor.y = event.clientY;
 });
@@ -17,11 +17,8 @@ function getDistanceFromCursor(position) {
 }
 
 function calculateBasicPanicingButtonSpeed(position) {
-   return (window.innerWidth - Math.abs(cursor.x - position.x)) + (window.innerHeight - Math.abs(cursor.y - position.y)) / 25 * cursor.movement
+   return (window.innerWidth - Math.abs(cursor.x - position.x)) + (window.innerHeight - Math.abs(cursor.y - position.y)) / 25 * (cursor.movement ** 2);
 }
-
-const fearP = document.getElementById('fear');
-const curiosityP = document.getElementById('curiosity');
 
 class Button {
    static CURIOSITY_RANGE = 100;
@@ -61,11 +58,10 @@ class Button {
          this.#stateRemainingTime -= deltaTime;
          if(this.#stateRemainingTime <= 0) {
             this.chooseRandomState();
-            console.log(this.#state);
          }
       }
 
-      if(this.#state !== 'fleeing' && ((this.#fear > 30 && cursor.movement > 2) || cursor.movement > 10 || (getDistanceFromCursor(this.position) < Button.FEAR_RANGE && this.#fear > 0))) {
+      if(this.#state !== 'fleeing' && ((this.#fear > 30 && cursor.movement >= 1.5) || cursor.movement > 3 || (getDistanceFromCursor(this.position) < Button.FEAR_RANGE && this.#fear > 0))) {
          this.#fear = Math.min(100, this.#fear + 40 * deltaTime);
          if(this.isInCalmState()) {
             this.#curiosity = Math.max(0, this.#curiosity - 20);
@@ -147,9 +143,6 @@ class Button {
    sync() {
       this.#element.style.top = `${ Math.round(this.position.y - this.#element.offsetHeight / 2) }px`;
       this.#element.style.left = `${ Math.round(this.position.x - this.#element.offsetWidth / 2) }px`;
-
-      fearP.textContent = `Fear: ${ Math.round(this.#fear) }`;
-      curiosityP.textContent = `Curiosity: ${ Math.round(this.#curiosity) }`;
    }
 
    chooseRandomState() {
