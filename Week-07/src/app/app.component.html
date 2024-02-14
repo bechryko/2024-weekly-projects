@@ -1,0 +1,36 @@
+<div class="wrapper">
+  <h1>Válassz csoportot!</h1>
+  <mat-form-field>
+    <mat-label>Csoport neve</mat-label>
+    <mat-select [(value)]="selectedGroupIndex">
+      @for(group of groups(); track $index) {
+        <mat-option [value]="$index">{{ group.name }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <div class="name-list">
+    <h2>Hallgatók</h2>
+    <table matSort (matSortChange)="sortData($event)">
+      <tr>
+        <th mat-sort-header="name">Név</th>
+        <th mat-sort-header="bonusPoints">Pluszpontok</th>
+        @for(_ of []; track $index) {
+          <th [mat-sort-header]="'miniTestScore' + $index">{{ $index + 1 }}. minizh</th>
+        }
+        <th mat-sort-header="endOfSemesterTestScore">Nagyzh</th>
+      </tr>
+
+      @for(student of selectedGroup().students; track $index) {
+        <tr>
+          <td>{{ student.name }}</td>
+          <td>{{ student.bonusPoints }}</td>
+          @for(score of student.miniTestScores; track $index) {
+            <td>{{ score }}</td>
+          }
+          <td>{{ student.endOfSemesterTestScore }}</td>
+        </tr>
+      }
+    </table>
+  </div>
+  <button id="save-button" mat-raised-button color="primary" (click)="saveChanges()">Mentés</button>
+</div>

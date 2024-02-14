@@ -1,0 +1,45 @@
+:host {
+   width: 75%;
+}
+
+.wrapper {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   width: 100%;
+   padding: 3rem 0;
+
+   h1 {
+      text-align: center;
+      font-size: 2.5rem;
+   }
+
+   h2 {
+      text-align: center;
+      font-size: 1.5rem;
+   }
+
+   table {
+      width: 100%;
+      border-collapse: collapse;
+
+      th, td {
+         padding: 0.5rem;
+         text-align: center;
+      }
+   }
+
+   mat-form-field {
+      width: 40%;
+   }
+
+   .name-list {
+      margin-top: 3rem;
+   }
+
+   #save-button {
+      margin-top: 2rem;
+      height: 3rem;
+      width: 20%;
+   }
+}
