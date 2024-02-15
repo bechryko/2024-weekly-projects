@@ -1,0 +1,24 @@
+<div class="dialog-wrapper">
+   <h1>Pluszpontok hozzáadása</h1>
+   @if(!dataModifications()) {
+      <textarea #rawInputArea></textarea>
+      <button mat-raised-button color="primary" (click)="processInput()">Bemenet feldolgozása</button>
+   } @else {
+      <div class="data-modifications">
+         @for(group of dataModificationsArray(); track $index) {
+            <h2>{{ getGroupNameFromIndex($index) }}</h2>
+            @for(modification of group; track $index) {
+               @switch (modification.type) {
+                  @case('addStudent') {
+                     <p>Új hallgató: {{ modification.studentName }} - {{ modification.bonusPoints }} pont</p>
+                  }
+                  @case('addBonusPoints') {
+                     <p>{{ modification.studentName }}: {{ modification.oldBonusPoints }} -> {{ modification.newBonusPoints }} (+{{ modification.addedBonusPoints }} pont)</p>
+                  }
+               }
+            }
+         }
+      </div>
+      <button mat-raised-button color="primary" (click)="saveChanges()">Változtatások mentése</button>
+   }
+</div>

@@ -8,29 +8,40 @@
       }
     </mat-select>
   </mat-form-field>
-  <div class="name-list">
-    <h2>Hallgatók</h2>
-    <table matSort (matSortChange)="sortData($event)">
-      <tr>
-        <th mat-sort-header="name">Név</th>
-        <th mat-sort-header="bonusPoints">Pluszpontok</th>
-        @for(_ of []; track $index) {
-          <th [mat-sort-header]="'miniTestScore' + $index">{{ $index + 1 }}. minizh</th>
-        }
-        <th mat-sort-header="endOfSemesterTestScore">Nagyzh</th>
-      </tr>
-
-      @for(student of selectedGroup().students; track $index) {
+  @if(groups().length) {
+    <div class="name-list">
+      <h2>Hallgatók</h2>
+      <table matSort (matSortChange)="sortData($event)">
         <tr>
-          <td>{{ student.name }}</td>
-          <td>{{ student.bonusPoints }}</td>
-          @for(score of student.miniTestScores; track $index) {
-            <td>{{ score }}</td>
+          <th mat-sort-header="name">Név</th>
+          <th mat-sort-header="neptun">Neptun kód</th>
+          <th mat-sort-header="bonusPoints">Pluszpontok</th>
+          @for(miniTestName of miniTests; track $index) {
+            <th [mat-sort-header]="'miniTestScore' + $index">{{ miniTestName }}</th>
           }
-          <td>{{ student.endOfSemesterTestScore }}</td>
+          <th mat-sort-header="endOfSemesterTestScore">Nagyzh</th>
         </tr>
-      }
-    </table>
+
+        @for(student of selectedGroup().students; track $index) {
+          <tr>
+            <td>{{ student.name }}</td>
+            <td>{{ student.neptun }}</td>
+            <td>{{ student.bonusPoints }}</td>
+            @for(score of student.miniTestScores; track $index) {
+              <td>{{ score }}</td>
+            }
+            <td>{{ student.endOfSemesterTestScore }}</td>
+          </tr>
+        }
+      </table>
+    </div>
+    <div class="buttons">
+      <button mat-raised-button color="accent" (click)="openDialog('bonusPoints')">Pluszpontok hozzáadása</button>
+      <button mat-raised-button color="accent" (click)="openDialog('test')">Zh eredmények beírása<br>(aktuális csoport számára)</button>
+    </div>
+  }
+  <div class="buttons">
+    <button id="save-button" mat-raised-button color="primary" (click)="saveChanges()">Mentés</button>
+    <button mat-raised-button color="primary" (click)="openDialog('export')">Adatok exportálása</button>
   </div>
-  <button id="save-button" mat-raised-button color="primary" (click)="saveChanges()">Mentés</button>
 </div>

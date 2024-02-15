@@ -8,3 +8,24 @@ body {
    justify-content: center;
    background-color: rgb(216, 255, 216);
 }
+
+.dialog-wrapper {
+   width: 75vw;
+   height: 75vh;
+   background-color: rgb(171, 158, 255);
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   padding: 1rem;
+
+   textarea {
+      padding: 1rem;
+      font-size: 1.1rem;
+      width: 80%;
+      height: 80%;
+   }
+
+   button {
+      margin-top: 1rem;
+   }
+}

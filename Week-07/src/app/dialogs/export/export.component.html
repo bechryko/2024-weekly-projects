@@ -1,0 +1,9 @@
+<div class="dialog-wrapper">
+   <h1>Adatok exportálása</h1>
+   <textarea #fullDataArea>{{ initialDataAsJSON }}</textarea>
+   <div class="buttons">
+      <button mat-raised-button color="primary" (click)="copyData()">Adatok másolása</button>
+      <button mat-raised-button color="primary" (click)="eraseData()">Adatok törlése</button>
+      <button mat-raised-button color="primary" (click)="saveChanges()">Mentés</button>
+   </div>
+</div>
