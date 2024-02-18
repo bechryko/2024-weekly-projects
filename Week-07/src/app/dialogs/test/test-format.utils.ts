@@ -12,6 +12,11 @@ export class TestFormatUtils {
 
       for (const line of lines) {
          const [ name, neptun, status, result ] = line.split('\t').map(p => p.trim().replaceAll(',', '.'));
+
+         if(!Number(result)) {
+            continue;
+         }
+         
          students.push({
             name,
             neptun,

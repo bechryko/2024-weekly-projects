@@ -63,11 +63,11 @@ export class TestComponent {
             const newStudent: Student = {
                name: student.name,
                neptun: student.neptun,
-               bonusPoints: 0,
+               bonusPoints: this.selectedTestType === 'bonusPoints' ? student.result : 0,
                miniTestScores: [],
                endOfSemesterTestScore: this.selectedTestType === 'endOfSemesterTest' ? student.result : undefined
             };
-            if(this.selectedTestType !== 'endOfSemesterTest') {
+            if (!isNaN(Number(this.selectedTestType))) {
                newStudent.miniTestScores[Number(this.selectedTestType)] = student.result;
             }
             this.data.students.push(newStudent);
@@ -75,7 +75,9 @@ export class TestComponent {
          }
          const studentInGroupsResult = this.selectedTestType === 'endOfSemesterTest'
             ? studentInGroup.endOfSemesterTestScore
-            : studentInGroup.miniTestScores[Number(this.selectedTestType)];
+            : this.selectedTestType === 'bonusPoints'
+               ? studentInGroup.bonusPoints
+               : studentInGroup.miniTestScores[Number(this.selectedTestType)];
          if (student.result === studentInGroupsResult) {
             return;
          }
@@ -97,8 +99,10 @@ export class TestComponent {
                type: 'modifiedTestResult'
             });
          }
-         if(this.selectedTestType === 'endOfSemesterTest') {
+         if (this.selectedTestType === 'endOfSemesterTest') {
             studentInGroup.endOfSemesterTestScore = student.result;
+         } else if(this.selectedTestType === 'bonusPoints') {
+            studentInGroup.bonusPoints = student.result;
          } else {
             studentInGroup.miniTestScores[Number(this.selectedTestType)] = student.result;
          }
@@ -109,7 +113,7 @@ export class TestComponent {
    }
 
    public saveChanges(): void {
-      this.dialogRef.close([ this.data ]);
+      this.dialogRef.close([this.data]);
    }
 
    public getGroupNameFromIndex(index: number): string {
@@ -117,7 +121,10 @@ export class TestComponent {
    }
 
    public get displayTests(): TestDescription[] {
-      return [...Array.from({ length: this.maximumMiniTestNumber + 1 }, (_, i) => ({
+      return [{
+         name: 'Pluszpont',
+         value: 'bonusPoints'
+      }, ...Array.from({ length: this.maximumMiniTestNumber + 1 }, (_, i) => ({
          name: `${i + 1}. minizh`,
          value: String(i)
       })), {
