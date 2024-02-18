@@ -1,0 +1,35 @@
+<div class="dialog-wrapper">
+   <h1>CooSpace eredmények beírása ({{ data.name }})</h1>
+   @if(!dataModifications().length) {
+      <mat-form-field>
+         <mat-label>Zh típusa</mat-label>
+         <mat-select [(value)]="selectedTestType">
+            @for(test of displayTests; track $index) {
+               <mat-option [value]="test.value">{{ test.name }}</mat-option>
+            }
+         </mat-select>
+      </mat-form-field>
+   }
+   @if(!dataModifications().length) {
+      <textarea #rawInputArea></textarea>
+      <button mat-raised-button color="primary" (click)="processInput()">Bemenet feldolgozása</button>
+   } @else {
+      <div class="data-modifications">
+         <h2>{{ data.name }} - {{ selectedTestName }}</h2>
+         @for(modification of dataModifications(); track $index) {
+            @switch (modification.type) {
+               @case('newStudent') {
+                  <p>Új hallgató: {{ modification.name }} ({{ modification.neptun }}): {{ modification.result }} pont</p>
+               }
+               @case('newTestResult') {
+                  <p>{{ modification.name }} (<span *ngIf="modification.oldNeptun" class="warn">{{ modification.oldNeptun }} -></span>{{ modification.neptun }}): {{ modification.result }} pont</p>
+               }
+               @case('modifiedTestResult') {
+                  <p>{{ modification.name }} (<span *ngIf="modification.oldNeptun" class="warn">{{ modification.oldNeptun }} -></span>{{ modification.neptun }}): {{ modification.oldResult }} -> {{ modification.newResult }} pont</p>
+               }
+            }
+         }
+      </div>
+      <button mat-raised-button color="primary" (click)="saveChanges()">Változtatások mentése</button>
+   }
+</div>
