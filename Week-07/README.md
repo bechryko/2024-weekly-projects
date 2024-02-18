@@ -1,27 +1,7 @@
-# LogicStudentManager
+# Logic Student Manager
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.0.
+This is a small project for me to manage my students' scores in the university. This semester I am teaching 5 different courses, so I have more than 120 students. I didn't want to keep track of the scores in Excel, so I wrote a program which can process different formatted inputs, which either I or the CooSpace use.
 
-## Development server
+The app stores the students' data in the browser's local storage, so sensitive data cannot be acquired through this repository.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+I made the moving and direct editing of the data very easy, through a simple text area which lets you edit the JSON data.
