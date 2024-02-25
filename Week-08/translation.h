@@ -1,9 +1,11 @@
 #ifndef TRANSLATION_H
 #define TRANSLATION_H
 
+#define LANGUAGE_COUNT 2
+
 typedef struct {
    char *key;
-   char translations[2][100];
+   char translations[LANGUAGE_COUNT][100];
 } Translation;
 
 #define TRANSLATION_COUNT 12

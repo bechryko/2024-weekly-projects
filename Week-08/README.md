@@ -7,4 +7,5 @@ This is a simple variant of the famous Password Game, implemented in C. The moti
 The Makefile helps you compile and start the program. The Makefile is made for Windows, but compilation for Linux shouldn't be too hard, you only have to remove the `.exe` extensions from the Makefile (also modify the `clean` target a little bit).
 `make`: compiles the game
 `make run`: compiles and runs the game
+`make run hu`: compiles the game and runs it in Hungarian language
 `make clean`: removes the compiled file

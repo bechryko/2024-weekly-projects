@@ -3,6 +3,9 @@
 #include "conditions.h"
 #include "translation.h"
 
+#include <string.h>
+#include <stdlib.h>
+
 #ifndef MAX_LEVEL_COUNT
 #define MAX_LEVEL_COUNT 0
 #endif
@@ -13,8 +16,26 @@ void win(char password[]) {
    printf(NEW_LINE);
 }
 
-int main() {
-   setLanguage(0);
+void handleArguments(int argc, char **argv) {
+   char isLanguageSet = 0;
+   for(int i = 0; i < argc; i++) {
+      if(strcmp(argv[i], "--language") == 0) {
+         if(i + 1 < argc) {
+            int language = atoi(argv[i + 1]);
+            if(language >= 0 && language < LANGUAGE_COUNT) {
+               setLanguage(language);
+               isLanguageSet = 1;
+            }
+         }
+      }
+   }
+   if(!isLanguageSet) {
+      setLanguage(1);
+   }
+}
+
+int main(int argc, char **argv) {
+   handleArguments(argc, argv);
 
    if(MAX_LEVEL_COUNT < 1) {
       fprintf(stderr, translate("ERROR.MISSING_CONDITIONS"));

@@ -4,5 +4,8 @@ main: main.c
 run: main
 	./main.exe
 
+run hu: main
+	./main.exe --language 0
+
 clean:
 	del main.exe
