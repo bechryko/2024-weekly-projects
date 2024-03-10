@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>RPG Character Template</title>
+   <style>
+      body {
+         overflow: hidden;
+         background-color: rgb(68, 22, 5);
+         padding: 2rem;
+         width: 100vw;
+         height: 100dvh;
+         box-sizing: border-box;
+         display: flex;
+         gap: 2rem;
+      }
+
+      aside {
+         flex-basis: 20%;
+         height: 100%;
+         background-color: sandybrown;
+      }
+
+      .content {
+         flex-basis: 80%;
+         height: 100%;
+      }
+
+      main {
+         height: calc(100% - 3rem);
+         overflow-y: auto;
+         padding: 1.5rem;
+         box-sizing: border-box;
+         background-color: sandybrown;
+      }
+
+      nav {
+         margin-bottom: -3px;
+      }
+
+      .nav-button {
+         height: 3rem;
+         width: 8rem;
+         background-color: rgb(255, 192, 137);
+         border: none;
+         border-top-left-radius: 0.4rem;
+         border-top-right-radius: 0.4rem;
+         margin-right: 1rem;
+      }
+   </style>
+</head>
+<body>
+   <aside></aside>
+   <div class="content">
+      <nav>
+         <button class="nav-button"></button>
+         <button class="nav-button"></button>
+         <button class="nav-button"></button>
+      </nav>
+      <main id="character-info"></main>
+      <main id="quests" style="display: none;"></main>
+      <main id="shop" style="display: none;"></main>
+   </div>
+</body>
+</html>
