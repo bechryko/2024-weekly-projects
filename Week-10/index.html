@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>RPG Character Template</title>
+   <style>
+      * {
+         box-sizing: border-box;
+      }
+
+      body {
+         overflow: hidden;
+         background-color: rgb(68, 22, 5);
+         padding: 2rem;
+         width: 100vw;
+         height: 100dvh;
+         display: flex;
+         gap: 2rem;
+      }
+
+      aside {
+         flex-basis: 20%;
+         height: 100%;
+         background-color: sandybrown;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         gap: 1rem;
+         padding: 1.5rem;
+      }
+
+      aside img {
+         width: 100%;
+         aspect-ratio: 1;
+         object-fit: cover;
+      }
+
+      .money {
+         font-size: 1.25rem;
+      }
+
+      .content {
+         flex-basis: 80%;
+         height: 100%;
+      }
+
+      main {
+         height: calc(100% - 3rem);
+         overflow-y: auto;
+         padding: 1.5rem;
+         background-color: sandybrown;
+      }
+
+      nav {
+         margin-bottom: -3px;
+      }
+
+      .nav-button {
+         height: 3rem;
+         width: 8rem;
+         background-color: rgb(255, 192, 137);
+         border: none;
+         border-top-left-radius: 0.4rem;
+         border-top-right-radius: 0.4rem;
+         margin-right: 1rem;
+         cursor: pointer;
+      }
+
+      .nav-button.selected {
+         background-color: sandybrown;
+      }
+
+      fieldset {
+         border-color: rgb(68, 22, 5);
+      }
+
+      legend {
+         font-size: 1.35rem;
+      }
+
+      .title-container {
+         display: flex;
+         flex-wrap: wrap;
+         justify-content: space-around;
+         font-size: 1.1rem;
+         gap: 3rem;
+      }
+
+      .title-container p {
+         text-align: center;
+      }
+
+      main#quests fieldset, main#shop fieldset {
+         margin-top: 1rem;
+         margin-bottom: 2.5rem;
+      }
+
+      .quest-container {
+         margin-bottom: 1rem;
+         width: 100%;
+      }
+
+      .quest-container + .quest-container::before {
+         content: '';
+         display: block;
+         border-bottom: 1px solid rgb(68, 22, 5);
+         margin-bottom: 1rem;
+      }
+
+      .shop-container {
+         display: flex;
+         flex-wrap: wrap;
+         justify-content: space-around;
+         flex: 0 0 100%;
+         gap: 2.5rem;
+      }
+
+      ::-webkit-scrollbar {
+         width: 0.75rem;
+      }
+
+      ::-webkit-scrollbar-track {
+         background: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+         background: sienna;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+         background: saddlebrown;
+      }
+   </style>
+</head>
+<body>
+   <aside>
+      <img src="" alt="character image">
+      <h1>dummy name</h1>
+      <p>dummy class</p>
+      <div class="stats">
+         <p>dummy stat1</p>
+         <p>dummy stat2</p>
+         <p>dummy stat3</p>
+         <p>dummy stat4</p>
+         <p>dummy stat5</p>
+      </div>
+      <p class="money">dummy gold</p>
+   </aside>
+   <div class="content">
+      <nav>
+         <button class="nav-button selected">Character Info</button>
+         <button class="nav-button">Quests</button>
+         <button class="nav-button">Shop</button>
+      </nav>
+      <main id="character-info">
+         <h2>Character Info</h2>
+         <fieldset>
+            <legend>Titles</legend>
+            <div class="title-container">
+               <p>dummy title1</p>
+               <p>dummy title2</p>
+               <p>dummy title3</p>
+               <p>dummy title4</p>
+               <p>dummy title5</p>
+            </div>
+         </fieldset>
+      </main>
+      <main id="quests" style="display: none;">
+         <h2>Quests</h2>
+         <fieldset>
+            <legend>Active Quests</legend>
+            <div class="quest-container">
+               <h3>dummy quest name</h3>
+               <p>dummy quest description</p>
+               <p>dummy quest reward</p>
+            </div>
+            <div class="quest-container">
+               <h3>dummy quest name</h3>
+               <p>dummy quest description</p>
+               <p>dummy quest reward</p>
+            </div>
+            <div class="quest-container">
+               <h3>dummy quest name</h3>
+               <p>dummy quest description</p>
+               <p>dummy quest reward</p>
+            </div>
+         </fieldset>
+         <fieldset>
+            <legend>Completed Quests</legend>
+            <div class="quest-container">
+               <h3>dummy quest name</h3>
+               <p>dummy quest description</p>
+               <p>dummy quest reward</p>
+            </div>
+            <div class="quest-container">
+               <h3>dummy quest name</h3>
+               <p>dummy quest description</p>
+               <p>dummy quest reward</p>
+            </div>
+            <div class="quest-container">
+               <h3>dummy quest name</h3>
+               <p>dummy quest description</p>
+               <p>dummy quest reward</p>
+            </div>
+         </fieldset>
+      </main>
+      <main id="shop" style="display: none;">
+         <h2>Shop</h2>
+         <fieldset>
+            <legend>Weapons</legend>
+            <div class="shop-container">
+               <div class="shop-item">
+                  <h3>dummy weapon name</h3>
+                  <p>dummy weapon description</p>
+                  <p>dummy weapon price</p>
+               </div>
+               <div class="shop-item">
+                  <h3>dummy weapon name</h3>
+                  <p>dummy weapon description</p>
+                  <p>dummy weapon price</p>
+               </div>
+               <div class="shop-item">
+                  <h3>dummy weapon name</h3>
+                  <p>dummy weapon description</p>
+                  <p>dummy weapon price</p>
+               </div>
+            </div>
+         </fieldset>
+         <fieldset>
+            <legend>Armor</legend>
+            <div class="shop-container">
+               <div class="shop-item">
+                  <h3>dummy armor name</h3>
+                  <p>dummy armor description</p>
+                  <p>dummy armor price</p>
+               </div>
+               <div class="shop-item">
+                  <h3>dummy armor name</h3>
+                  <p>dummy armor description</p>
+                  <p>dummy armor price</p>
+               </div>
+               <div class="shop-item">
+                  <h3>dummy armor name</h3>
+                  <p>dummy armor description</p>
+                  <p>dummy armor price</p>
+               </div>
+               <div class="shop-item">
+                  <h3>dummy armor name</h3>
+                  <p>dummy armor description</p>
+                  <p>dummy armor price</p>
+               </div>
+               <div class="shop-item">
+                  <h3>dummy armor name</h3>
+                  <p>dummy armor description</p>
+                  <p>dummy armor price</p>
+               </div>
+         </fieldset>
+      </main>
+   </div>
+   <script>
+      const navButtons = document.querySelectorAll('.nav-button');
+      const mainSections = document.querySelectorAll('main');
+
+      navButtons.forEach((button, index) => {
+         button.addEventListener('click', () => {
+            mainSections.forEach((section, sectionIndex) => {
+               if (index === sectionIndex) {
+                  section.style.display = 'block';
+               } else {
+                  section.style.display = 'none';
+               }
+            });
+
+            navButtons.forEach((button, buttonIndex) => {
+               if (index === buttonIndex) {
+                  button.classList.add('selected');
+               } else {
+                  button.classList.remove('selected');
+               }
+            });
+         });
+      });
+   </script>
+</body>
+</html>
