@@ -63,6 +63,56 @@
          border-top-left-radius: 0.4rem;
          border-top-right-radius: 0.4rem;
          margin-right: 1rem;
+         cursor: pointer;
+      }
+
+      .nav-button.selected {
+         background-color: sandybrown;
+      }
+
+      fieldset {
+         border-color: rgb(68, 22, 5);
+      }
+
+      legend {
+         font-size: 1.35rem;
+      }
+
+      .title-container {
+         display: flex;
+         flex-wrap: wrap;
+         justify-content: space-around;
+         font-size: 1.1rem;
+         gap: 3rem;
+      }
+
+      .title-container p {
+         text-align: center;
+      }
+
+      main#quests fieldset, main#shop fieldset {
+         margin-top: 1rem;
+         margin-bottom: 2.5rem;
+      }
+
+      .quest-container {
+         margin-bottom: 1rem;
+         width: 100%;
+      }
+
+      .quest-container + .quest-container::before {
+         content: '';
+         display: block;
+         border-bottom: 1px solid rgb(68, 22, 5);
+         margin-bottom: 1rem;
+      }
+
+      .shop-container {
+         display: flex;
+         flex-wrap: wrap;
+         justify-content: space-around;
+         flex: 0 0 100%;
+         gap: 2.5rem;
       }
    </style>
 </head>
@@ -82,13 +132,138 @@
    </aside>
    <div class="content">
       <nav>
-         <button class="nav-button"></button>
-         <button class="nav-button"></button>
-         <button class="nav-button"></button>
+         <button class="nav-button selected">Character Info</button>
+         <button class="nav-button">Quests</button>
+         <button class="nav-button">Shop</button>
       </nav>
-      <main id="character-info"></main>
-      <main id="quests" style="display: none;"></main>
-      <main id="shop" style="display: none;"></main>
+      <main id="character-info">
+         <h2>Character Info</h2>
+         <fieldset>
+            <legend>Titles</legend>
+            <div class="title-container">
+               <p>dummy title1</p>
+               <p>dummy title2</p>
+               <p>dummy title3</p>
+               <p>dummy title4</p>
+               <p>dummy title5</p>
+            </div>
+         </fieldset>
+      </main>
+      <main id="quests" style="display: none;">
+         <h2>Quests</h2>
+         <fieldset>
+            <legend>Active Quests</legend>
+            <div class="quest-container">
+               <h3>dummy quest name</h3>
+               <p>dummy quest description</p>
+               <p>dummy quest reward</p>
+            </div>
+            <div class="quest-container">
+               <h3>dummy quest name</h3>
+               <p>dummy quest description</p>
+               <p>dummy quest reward</p>
+            </div>
+            <div class="quest-container">
+               <h3>dummy quest name</h3>
+               <p>dummy quest description</p>
+               <p>dummy quest reward</p>
+            </div>
+         </fieldset>
+         <fieldset>
+            <legend>Completed Quests</legend>
+            <div class="quest-container">
+               <h3>dummy quest name</h3>
+               <p>dummy quest description</p>
+               <p>dummy quest reward</p>
+            </div>
+            <div class="quest-container">
+               <h3>dummy quest name</h3>
+               <p>dummy quest description</p>
+               <p>dummy quest reward</p>
+            </div>
+            <div class="quest-container">
+               <h3>dummy quest name</h3>
+               <p>dummy quest description</p>
+               <p>dummy quest reward</p>
+            </div>
+         </fieldset>
+      </main>
+      <main id="shop" style="display: none;">
+         <h2>Shop</h2>
+         <fieldset>
+            <legend>Weapons</legend>
+            <div class="shop-container">
+               <div class="shop-item">
+                  <h3>dummy weapon name</h3>
+                  <p>dummy weapon description</p>
+                  <p>dummy weapon price</p>
+               </div>
+               <div class="shop-item">
+                  <h3>dummy weapon name</h3>
+                  <p>dummy weapon description</p>
+                  <p>dummy weapon price</p>
+               </div>
+               <div class="shop-item">
+                  <h3>dummy weapon name</h3>
+                  <p>dummy weapon description</p>
+                  <p>dummy weapon price</p>
+               </div>
+            </div>
+         </fieldset>
+         <fieldset>
+            <legend>Armor</legend>
+            <div class="shop-container">
+               <div class="shop-item">
+                  <h3>dummy armor name</h3>
+                  <p>dummy armor description</p>
+                  <p>dummy armor price</p>
+               </div>
+               <div class="shop-item">
+                  <h3>dummy armor name</h3>
+                  <p>dummy armor description</p>
+                  <p>dummy armor price</p>
+               </div>
+               <div class="shop-item">
+                  <h3>dummy armor name</h3>
+                  <p>dummy armor description</p>
+                  <p>dummy armor price</p>
+               </div>
+               <div class="shop-item">
+                  <h3>dummy armor name</h3>
+                  <p>dummy armor description</p>
+                  <p>dummy armor price</p>
+               </div>
+               <div class="shop-item">
+                  <h3>dummy armor name</h3>
+                  <p>dummy armor description</p>
+                  <p>dummy armor price</p>
+               </div>
+         </fieldset>
+      </main>
    </div>
+   <script>
+      const navButtons = document.querySelectorAll('.nav-button');
+      const mainSections = document.querySelectorAll('main');
+
+      navButtons.forEach((button, index) => {
+         button.addEventListener('click', () => {
+            mainSections.forEach((section, sectionIndex) => {
+               if (index === sectionIndex) {
+                  section.style.display = 'block';
+               } else {
+                  section.style.display = 'none';
+               }
+            });
+
+            navButtons.forEach((button, buttonIndex) => {
+               if (index === buttonIndex) {
+                  button.classList.add('selected');
+               } else {
+                  button.classList.remove('selected');
+               }
+            });
+         });
+      });
+   </script>
 </body>
 </html>
