@@ -4,13 +4,16 @@
    <meta charset="UTF-8">
    <title>RPG Character Template</title>
    <style>
+      * {
+         box-sizing: border-box;
+      }
+
       body {
          overflow: hidden;
          background-color: rgb(68, 22, 5);
          padding: 2rem;
          width: 100vw;
          height: 100dvh;
-         box-sizing: border-box;
          display: flex;
          gap: 2rem;
       }
@@ -19,6 +22,21 @@
          flex-basis: 20%;
          height: 100%;
          background-color: sandybrown;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         gap: 1rem;
+         padding: 1.5rem;
+      }
+
+      aside img {
+         width: 100%;
+         aspect-ratio: 1;
+         object-fit: cover;
+      }
+
+      .money {
+         font-size: 1.25rem;
       }
 
       .content {
@@ -30,7 +48,6 @@
          height: calc(100% - 3rem);
          overflow-y: auto;
          padding: 1.5rem;
-         box-sizing: border-box;
          background-color: sandybrown;
       }
 
@@ -50,7 +67,19 @@
    </style>
 </head>
 <body>
-   <aside></aside>
+   <aside>
+      <img src="" alt="character image">
+      <h1>dummy name</h1>
+      <p>dummy class</p>
+      <div class="stats">
+         <p>dummy stat1</p>
+         <p>dummy stat2</p>
+         <p>dummy stat3</p>
+         <p>dummy stat4</p>
+         <p>dummy stat5</p>
+      </div>
+      <p class="money">dummy gold</p>
+   </aside>
    <div class="content">
       <nav>
          <button class="nav-button"></button>
