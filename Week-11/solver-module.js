@@ -8,10 +8,8 @@ class Tree {
       this.root = new TreeNode(value);
    }
 
-   getUnfinishedNodes() {
-      const unfinishedNodes = [];
-      this.root.getUnfinishedNodes(unfinishedNodes);
-      return unfinishedNodes;
+   getNextNode() {
+      return this.getLeaves().filter(leaf => !leaf.isFinished())[0];
    }
 
    getLeaves() {
@@ -33,6 +31,17 @@ class TreeNode {
       this.parent = parent;
    }
 
+   getNextUnfinishedFormule() {
+      const unfinishedFormules = [...this.value].filter(formule => formule.length > 2);
+      for(const formule of unfinishedFormules) {
+         const [ formuleType ] = getFormuleType(formule);
+         if(formuleType === 'alpha') {
+            return formule;
+         }
+      }
+      return unfinishedFormules[0];
+   }
+
    setLeftChild(value) {
       this.leftChild = new TreeNode(value, this);
    }
@@ -51,15 +60,6 @@ class TreeNode {
       } else {
          this.leftChild?.getLeaves(leaves);
          this.rightChild?.getLeaves(leaves);
-      }
-   }
-
-   getUnfinishedNodes(unfinishedNodes) {
-      if(this.isLeaf() && !this.isFinished()) {
-         unfinishedNodes.push(this);
-      } else {
-         this.leftChild?.getUnfinishedNodes(unfinishedNodes);
-         this.rightChild?.getUnfinishedNodes(unfinishedNodes);
       }
    }
 
@@ -126,35 +126,26 @@ class TreeNode {
 }
 
 function runTableauxMethod(tree, debug = false) {
-   let unfinishedNodes;
-   while(unfinishedNodes = tree.getUnfinishedNodes(), unfinishedNodes.length) {
-      const unfinishedCase = unfinishedNodes[0];
-
-      let unfinishedFormule;
-      for(const formule of unfinishedCase.value) {
-         if(formule.length > 2) {
-            unfinishedFormule = formule;
-            break;
-         }
-      }
-
+   let node;
+   while(node = tree.getNextNode()) {
+      const unfinishedFormule = node.getNextUnfinishedFormule();
       const [ formuleType, firstFormule, secondFormule ] = getFormuleType(unfinishedFormule);
       if(formuleType === 'alpha') {
-         const newBranch = new Set(unfinishedCase.getIterator());
+         const newBranch = new Set(node.getIterator());
          newBranch.delete(unfinishedFormule);
          newBranch.add(firstFormule);
          newBranch.add(secondFormule);
-         unfinishedCase.setLeftChild(newBranch);
+         node.setLeftChild(newBranch);
       } else {
-         const newBranch1 = new Set(unfinishedCase.getIterator());
+         const newBranch1 = new Set(node.getIterator());
          newBranch1.delete(unfinishedFormule);
          newBranch1.add(firstFormule);
-         unfinishedCase.setLeftChild(newBranch1);
+         node.setLeftChild(newBranch1);
 
-         const newBranch2 = new Set(unfinishedCase.getIterator());
+         const newBranch2 = new Set(node.getIterator());
          newBranch2.delete(unfinishedFormule);
          newBranch2.add(secondFormule);
-         unfinishedCase.setRightChild(newBranch2);
+         node.setRightChild(newBranch2);
       }
    }
 
