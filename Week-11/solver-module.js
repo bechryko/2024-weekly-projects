@@ -1,15 +1,30 @@
-function runTableauxMethod(branches) {
+function runTableauxMethod(branches, debug = false) {
    while(!branches.every(branch => isFinished(branch))) {
       const unfinishedCase = branches.find(branch => !isFinished(branch));
-      const unfinishedFormule = unfinishedCase.find(formule => formule.length > 2);
+
+      let unfinishedFormule;
+      for(const formule of unfinishedCase) {
+         if(formule.length > 2) {
+            unfinishedFormule = formule;
+            break;
+         }
+      }
+
       const [ formuleType, firstFormule, secondFormule ] = getFormuleType(unfinishedFormule);
       if(formuleType === 'alpha') {
-         unfinishedCase.splice(unfinishedCase.indexOf(unfinishedFormule), 1, firstFormule, secondFormule);
+         unfinishedCase.delete(unfinishedFormule);
+         unfinishedCase.add(firstFormule);
+         unfinishedCase.add(secondFormule);
       } else {
-         const newBranch = unfinishedCase.slice();
-         unfinishedCase.splice(unfinishedCase.indexOf(unfinishedFormule), 1, firstFormule);
-         newBranch.splice(newBranch.indexOf(unfinishedFormule), 1, secondFormule);
+         unfinishedCase.delete(unfinishedFormule);
+         const newBranch = new Set(unfinishedCase);
+         newBranch.add(firstFormule);
+         unfinishedCase.add(secondFormule);
          branches.push(newBranch);
+      }
+
+      if(debug) {
+         console.log('Branches:', branches);
       }
    }
 
@@ -118,13 +133,23 @@ function getFormuleType(formule) {
 }
 
 function isFinished(branch) {
-   return branch.every(formule => formule.length <= 2) || isClosed(branch);
+   if(isClosed(branch)) {
+      return true;
+   }
+
+   let isOpen = true;
+   branch.forEach(formule => {
+      if(formule.length > 2) {
+         isOpen = false;
+      }
+   });
+   return isOpen;
 }
 
 function isClosed(branch) {
    for(const formule of branch) {
       const negatedFormule = negate(formule);
-      if(branch.includes(negatedFormule)) {
+      if(branch.has(negatedFormule)) {
          return true;
       }
    }
@@ -154,10 +179,11 @@ function trimBrackets(formule) {
    return formule;
 }
 
-const inputFormule = [ "p>q", "q>r", "-(p>-r)" ];
+// const inputFormule = [ "p>q", "q>r", "-(p>-r)" ];
+const inputFormule = "-((p>(q>r))>((p>q)>(p>r)))";
 
 if(Array.isArray(inputFormule)) {
-   runTableauxMethod([ inputFormule ]);
+   runTableauxMethod([ new Set(inputFormule) ]);
 } else {
-   runTableauxMethod([ [ inputFormule ] ]);
+   runTableauxMethod([ new Set([ inputFormule ]) ]);
 }
