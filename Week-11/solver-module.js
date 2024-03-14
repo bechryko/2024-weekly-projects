@@ -1,9 +1,137 @@
-function runTableauxMethod(branches, debug = false) {
-   while(!branches.every(branch => isFinished(branch))) {
-      const unfinishedCase = branches.find(branch => !isFinished(branch));
+class Tree {
+   constructor(value) {
+      if(Array.isArray(value)) {
+         value = new Set(value);
+      } else {
+         value = new Set([ value ]);
+      }
+      this.root = new TreeNode(value);
+   }
+
+   getUnfinishedNodes() {
+      const unfinishedNodes = [];
+      this.root.getUnfinishedNodes(unfinishedNodes);
+      return unfinishedNodes;
+   }
+
+   getLeaves() {
+      const leaves = [];
+      this.root.getLeaves(leaves);
+      return leaves;
+   }
+
+   log() {
+      return this.root.log();
+   }
+}
+
+class TreeNode {
+   constructor(value, parent = null) {
+      this.value = value;
+      this.leftChild = null;
+      this.rightChild = null;
+      this.parent = parent;
+   }
+
+   setLeftChild(value) {
+      this.leftChild = new TreeNode(value, this);
+   }
+
+   setRightChild(value) {
+      this.rightChild = new TreeNode(value, this);
+   }
+
+   isLeaf() {
+      return this.leftChild === null && this.rightChild === null;
+   }
+
+   getLeaves(leaves) {
+      if(this.isLeaf()) {
+         leaves.push(this);
+      } else {
+         this.leftChild?.getLeaves(leaves);
+         this.rightChild?.getLeaves(leaves);
+      }
+   }
+
+   getUnfinishedNodes(unfinishedNodes) {
+      if(this.isLeaf() && !this.isFinished()) {
+         unfinishedNodes.push(this);
+      } else {
+         this.leftChild?.getUnfinishedNodes(unfinishedNodes);
+         this.rightChild?.getUnfinishedNodes(unfinishedNodes);
+      }
+   }
+
+   isFinished() {
+      if(this.isClosed()) {
+         return true;
+      }
+
+      let isOpen = true;
+      this.value.forEach(formule => {
+         if(formule.length > 2) {
+            isOpen = false;
+         }
+      });
+      return isOpen;
+   }
+
+   isClosed() {
+      for(const formule of this.value) {
+         const negatedFormule = negate(formule);
+         if(this.value.has(negatedFormule)) {
+            return true;
+         }
+      }
+      return false;
+   }
+
+   getIterator() {
+      return this.value[Symbol.iterator]();
+   }
+
+   convertToAssignment() {
+      const assignment = {};
+      this.value.forEach(formule => {
+         const isNegated = formule[0] === '-';
+         const formuleCore = isNegated ? formule.slice(1) : formule;
+         if(formuleCore.length > 2) {
+            throw Error('Only literal sets can be converted into assignments.');
+         }
+         if(assignment[formuleCore] !== undefined) {
+            throw Error('Only satisfyable literal sets can be converted into assignments. Colliding literal: ' + formuleCore);
+         }
+         assignment[formuleCore] = !isNegated;
+      });
+      return assignment;
+   }
+
+   log() {
+      const children = [];
+      this.leftChild && children.push(this.leftChild);
+      this.rightChild && children.push(this.rightChild);
+      if(children.length === 0) {
+         return this.value;
+      } else {
+         console.log(this.toString() + " -> " + children.map(node => node.toString()).join(", "));
+      }
+
+      children.forEach(child => child.log());
+   }
+
+   toString() {
+      return `{ ${ [...this.value].join(", ") } }`;
+   }
+}
+
+function runTableauxMethod(tree, debug = false) {
+   let unfinishedNodes;
+   while(unfinishedNodes = tree.getUnfinishedNodes(), unfinishedNodes.length) {
+      const unfinishedCase = unfinishedNodes[0];
 
       let unfinishedFormule;
-      for(const formule of unfinishedCase) {
+      for(const formule of unfinishedCase.value) {
          if(formule.length > 2) {
             unfinishedFormule = formule;
             break;
@@ -12,31 +140,37 @@ function runTableauxMethod(branches, debug = false) {
 
       const [ formuleType, firstFormule, secondFormule ] = getFormuleType(unfinishedFormule);
       if(formuleType === 'alpha') {
-         unfinishedCase.delete(unfinishedFormule);
-         unfinishedCase.add(firstFormule);
-         unfinishedCase.add(secondFormule);
-      } else {
-         unfinishedCase.delete(unfinishedFormule);
-         const newBranch = new Set(unfinishedCase);
+         const newBranch = new Set(unfinishedCase.getIterator());
+         newBranch.delete(unfinishedFormule);
          newBranch.add(firstFormule);
-         unfinishedCase.add(secondFormule);
-         branches.push(newBranch);
-      }
+         newBranch.add(secondFormule);
+         unfinishedCase.setLeftChild(newBranch);
+      } else {
+         const newBranch1 = new Set(unfinishedCase.getIterator());
+         newBranch1.delete(unfinishedFormule);
+         newBranch1.add(firstFormule);
+         unfinishedCase.setLeftChild(newBranch1);
 
-      if(debug) {
-         console.log('Branches:', branches);
+         const newBranch2 = new Set(unfinishedCase.getIterator());
+         newBranch2.delete(unfinishedFormule);
+         newBranch2.add(secondFormule);
+         unfinishedCase.setRightChild(newBranch2);
       }
    }
 
-   logSolution(branches);
+   logSolution(tree, debug);
 }
 
-function logSolution(branches) {
-   console.log('The branches are:', branches);
-   if(branches.every(branch => isClosed(branch))) {
+function logSolution(tree, debug) {
+   if(debug) {
+      tree.log();
+   }
+
+   let satisfyingLeaf = tree.getLeaves().find(leaf => !leaf.isClosed());
+   if(!satisfyingLeaf) {
       console.log('The formula is not satisfiable.');
    } else {
-      console.log('The formula is satisfiable.');
+      console.log('The formula is satisfiable.\nA satisfying assignment is:', satisfyingLeaf.convertToAssignment());
    }
 }
 
@@ -132,30 +266,6 @@ function getFormuleType(formule) {
    throw Error('No alpha nor beta formule found for: ' + formule);
 }
 
-function isFinished(branch) {
-   if(isClosed(branch)) {
-      return true;
-   }
-
-   let isOpen = true;
-   branch.forEach(formule => {
-      if(formule.length > 2) {
-         isOpen = false;
-      }
-   });
-   return isOpen;
-}
-
-function isClosed(branch) {
-   for(const formule of branch) {
-      const negatedFormule = negate(formule);
-      if(branch.has(negatedFormule)) {
-         return true;
-      }
-   }
-   return false;
-}
-
 function negate(formule) {
    return formule[0] === '-' ? formule.slice(1) : '-' + formule;
 }
@@ -179,11 +289,7 @@ function trimBrackets(formule) {
    return formule;
 }
 
-// const inputFormule = [ "p>q", "q>r", "-(p>-r)" ];
-const inputFormule = "-((p>(q>r))>((p>q)>(p>r)))";
+const inputFormule = [ "p>q", "q>r", "-(p>-r)" ];
+// const inputFormule = "-((p>(q>r))>((p>q)>(p>r)))";
 
-if(Array.isArray(inputFormule)) {
-   runTableauxMethod([ new Set(inputFormule) ]);
-} else {
-   runTableauxMethod([ new Set([ inputFormule ]) ]);
-}
+runTableauxMethod(new Tree(inputFormule), true);
